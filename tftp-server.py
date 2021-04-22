@@ -1,24 +1,21 @@
 #!/usr/bin/env python3
-"""
-TFTP Server Command.
-"""
+# Welcome to my tftp client implementation
+# Created by: F0rkr
 
+# import section
 import sys
 import os
 import argparse
 import tftp
 
-TIMEOUT = 2
-PORT = 6969
-
-parser = argparse.ArgumentParser(prog='tftp-server')
-parser.add_argument('-p', '--port', type=int, default=PORT)
-parser.add_argument('-t', '--timeout', type=int, default=TIMEOUT)
-parser.add_argument('-c', '--cwd',  type=str, default='')
-parser.add_argument('--thread', action='store_true')
+# Configuring arguments parser
+parser = argparse.ArgumentParser()
+parser.add_argument('-p', '--port', dest='port', type=int,  default=6969, help='indique le numéro de port du serveur (par défaut, 6969).')
+parser.add_argument('-t', "--timeout", dest='timeout', type=int, default=2, help="indique le délai en secondes à partir duquel on considère que l'envoi ou la réception échoue (par défaut, 2).")
+parser.add_argument('-c', '--cwd', dest='cwd', type=str, default='', help='permet de changer le répertoire courant dans lequel les fichiers (avec des chemins relatifs) sont lus ou écrits.')
+parser.add_argument('--thread', type=bool, default=False, help='indique au serveur de traiter des requêtes clientes en parallèle, en déléguant chaque transfert de fichier à un thread particulier côté serveur (par défaut, False).')
 args = parser.parse_args()
 
-print(args)
 # change current working directory
 if args.cwd != '': os.chdir(args.cwd)
 
